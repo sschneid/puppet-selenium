@@ -18,7 +18,7 @@ describe 'selenium::config', :type => :define do
     p.merge!(params) if params
 
     it do
-      should contain_file('init-script').with({
+      should contain_file("selenium#{title}").with({
         'ensure' => 'file',
         'path'   => "/etc/init.d/selenium#{title}",
         'owner'  => 'root',
@@ -91,6 +91,12 @@ describe 'selenium::config', :type => :define do
         it_behaves_like 'config', params
       end
     end
+  end
+
+  context 'for osfamily RedHat' do
+    let(:facts) {{ :osfamily => 'Debian' }}
+
+    it { should contain_package('daemon').with_ensure('present') }
   end
 
 end
