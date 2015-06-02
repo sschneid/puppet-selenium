@@ -15,6 +15,7 @@ class selenium(
   $url                = undef,
   $download_timeout   = $selenium::params::download_timeout,
   $nocheckcertificate = false,
+  $logrotate          = false,
 ) inherits selenium::params {
   validate_string($user)
   validate_string($group)
@@ -86,15 +87,17 @@ class selenium(
     require            => File[$jar_path],
   }
 
-  logrotate::rule { 'selenium':
-    path          => $log_path,
-    rotate_every  => 'weekly',
-    missingok     => true,
-    rotate        => '4',
-    compress      => true,
-    delaycompress => true,
-    copytruncate  => true,
-    minsize       => '100k',
+  if $logrotate {
+    logrotate::rule { 'selenium':
+      path          => $log_path,
+      rotate_every  => 'weekly',
+      missingok     => true,
+      rotate        => '4',
+      compress      => true,
+      delaycompress => true,
+      copytruncate  => true,
+      minsize       => '100k',
+    }
   }
 
 }
