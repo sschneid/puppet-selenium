@@ -12,6 +12,7 @@ class selenium(
   $install_root       = $selenium::params::install_root,
   $java               = $selenium::params::java,
   $version            = $selenium::params::version,
+  $version            = hiera('profile::selenium::node::selenium_version', $selenium::params::version),
   $url                = undef,
   $download_timeout   = $selenium::params::download_timeout,
   $nocheckcertificate = false,
